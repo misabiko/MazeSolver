@@ -19,6 +19,7 @@ public class Main extends Applet{;
 	private direction currD;
 	
 	public void init() {
+		
 //		Set the maze's BufferedImage
 		try {
 			maze = ImageIO.read(new File("bigmaze.png"));
@@ -60,8 +61,9 @@ public class Main extends Applet{;
 	}
 	
 	public void start() {
-		for (int i = 0; i < 100;i++) {
+		for (int i = 0; i < 30;i++) {
 			check();
+			repaint();
 		}
 	}
 	
@@ -72,15 +74,12 @@ public class Main extends Applet{;
 			if (maze.getRGB(currX,currY-1) == wall || maze.getRGB(currX,currY-1) == path) {
 				nextDirection();
 				if (deadEndIndex == 4) {
-					maze.setRGB(currX, currY, deadEnd);
-					currD = direction.DOWN;
-					currY++;
+					step();
 					deadEndIndex = 0;
 				}
 				return false;
 			}else {
-				maze.setRGB(currX, currY-1, path);
-				currY--;
+				step();
 				
 				deadEndIndex = 0;
 				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
@@ -90,15 +89,12 @@ public class Main extends Applet{;
 			if (maze.getRGB(currX+1,currY) == wall || maze.getRGB(currX+1,currY) == path) {
 				nextDirection();
 				if (deadEndIndex == 4) {
-					maze.setRGB(currX, currY, deadEnd);
-					currD = direction.LEFT;
-					currX--;
+					step();
 					deadEndIndex = 0;
 				}
 				return false;
 			}else {
-				maze.setRGB(currX+1, currY, path);
-				currX++;
+				step();
 				
 				deadEndIndex = 0;
 				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
@@ -108,15 +104,12 @@ public class Main extends Applet{;
 			if (maze.getRGB(currX,currY+1) == wall || maze.getRGB(currX,currY+1) == path) {
 				nextDirection();
 				if (deadEndIndex == 4) {
-					maze.setRGB(currX, currY, deadEnd);
-					currD = direction.UP;
-					currY--;
+					step();
 					deadEndIndex = 0;
 				}
 				return false;
 			}else {
-				maze.setRGB(currX, currY+1, path);
-				currY++;
+				step();
 				
 				deadEndIndex = 0;
 				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
@@ -126,15 +119,12 @@ public class Main extends Applet{;
 			if (maze.getRGB(currX-1,currY) == wall || maze.getRGB(currX-1,currY) == path) {
 				nextDirection();
 				if (deadEndIndex == 4) {
-					maze.setRGB(currX, currY, deadEnd);
-					currD = direction.RIGHT;
-					currX++;
+					step();
 					deadEndIndex = 0;
 				}
 				return false;
 			}else {
-				maze.setRGB(currX-1, currY, path);
-				currX--;
+				step();
 				
 				deadEndIndex = 0;
 				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
@@ -143,6 +133,39 @@ public class Main extends Applet{;
 		default:
 			System.out.println("The impossible happened! D:");//Seriously though, this is just to calm java, it won't happen
 			return false;
+		}
+	}
+	
+	private void step() {
+		switch (currD) {
+			case UP:
+				if (maze.getRGB(currX, currY) == path)
+					maze.setRGB(currX, currY, deadEnd);
+				else
+					maze.setRGB(currX, currY, path);
+				currY--;
+				break;
+			case RIGHT:
+				if (maze.getRGB(currX, currY) == path)
+					maze.setRGB(currX, currY, deadEnd);
+				else
+					maze.setRGB(currX, currY, path);
+				currX++;
+				break;
+			case DOWN:
+				if (maze.getRGB(currX, currY) == path)
+					maze.setRGB(currX, currY, deadEnd);
+				else
+					maze.setRGB(currX, currY, path);
+				currY++;
+				break;
+			case LEFT:
+				if (maze.getRGB(currX, currY) == path)
+					maze.setRGB(currX, currY, deadEnd);
+				else
+					maze.setRGB(currX, currY, path);
+				currX--;
+				break;
 		}
 	}
 	
@@ -156,7 +179,7 @@ public class Main extends Applet{;
 		deadEndIndex++;
 		System.out.println(deadEndIndex);
 		
-		System.out.println("Facing "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
+		System.out.println("Facing "+currD.toString().toLowerCase()+".");
 	}
 	
 	public void paint(Graphics g) {
