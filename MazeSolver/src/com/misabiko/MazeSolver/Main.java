@@ -13,7 +13,7 @@ public class Main extends Applet{;
 
 	private static final long serialVersionUID = 1L;
 	private static BufferedImage maze;
-	private int startX, startY, endX, endY, currX, currY, wall, path, deadEnd;
+	private int startX, startY, endX, endY, currX, currY, wall, hall, path, deadEnd;
 	private int deadEndIndex = 0;
 	private enum direction { UP, RIGHT, DOWN, LEFT }
 	private direction currD;
@@ -46,6 +46,7 @@ public class Main extends Applet{;
 		currY = startY;
 		
 		wall = Color.BLACK.getRGB();
+		hall = Color.WHITE.getRGB();
 		path = Color.RED.getRGB();
 		deadEnd = Color.CYAN.getRGB();
 		
@@ -58,113 +59,135 @@ public class Main extends Applet{;
 			currD = direction.RIGHT;
 		else
 			currD = direction.LEFT;
+		
 	}
 	
 	public void start() {
-		for (int i = 0; i < 30;i++) {
-			check();
-			repaint();
+		int i = 1;
+		while (i < 10000) {
+//			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
+			if (check() == Color.GREEN.getRGB()) {
+				step();
+				System.out.println("Solution has been found in "+i+" steps.");
+				return;
+			}else if (check() == hall) {
+				step();
+			}else if (deadEndIndex >= 4) {
+				if (check() == wall || check() == deadEnd || check() == Color.BLUE.getRGB()) {
+					nextDirection();
+				}else {
+					step();
+				}
+			}else if (check() == wall || check() == path || check() == deadEnd || check() == Color.BLUE.getRGB()) {
+				nextDirection();
+			}
+			
+			i++;
 		}
 	}
 	
 //	Checks if the next tile is a wall, a hall or the end and acts in consequence
-	private boolean check() {
+	private int check() {
 		switch (currD) {
 		case UP:
-			if (maze.getRGB(currX,currY-1) == wall || maze.getRGB(currX,currY-1) == path) {
-				nextDirection();
-				if (deadEndIndex == 4) {
-					step();
-					deadEndIndex = 0;
-				}
-				return false;
-			}else {
-				step();
-				
-				deadEndIndex = 0;
-				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
-				return true;
+			if (currY-1 >= 0)
+				return maze.getRGB(currX,currY-1);
+			else {
+				System.out.println("You're facing the upper void."+getCurrPos());
+				return 0;
 			}
 		case RIGHT:
-			if (maze.getRGB(currX+1,currY) == wall || maze.getRGB(currX+1,currY) == path) {
-				nextDirection();
-				if (deadEndIndex == 4) {
-					step();
-					deadEndIndex = 0;
-				}
-				return false;
-			}else {
-				step();
-				
-				deadEndIndex = 0;
-				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
-				return true;
+			if (currX+1 >= 0)
+				return maze.getRGB(currX+1,currY);
+			else {
+				System.out.println("You're facing the eastern void."+getCurrPos());
+				return 0;
 			}
 		case DOWN:
-			if (maze.getRGB(currX,currY+1) == wall || maze.getRGB(currX,currY+1) == path) {
-				nextDirection();
-				if (deadEndIndex == 4) {
-					step();
-					deadEndIndex = 0;
-				}
-				return false;
-			}else {
-				step();
-				
-				deadEndIndex = 0;
-				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
-				return true;
+			if (currY+1 >= 0)
+				return maze.getRGB(currX,currY+1);
+			else {
+				System.out.println("You're facing the lower void."+getCurrPos());
+				return 0;
 			}
 		case LEFT:
-			if (maze.getRGB(currX-1,currY) == wall || maze.getRGB(currX-1,currY) == path) {
-				nextDirection();
-				if (deadEndIndex == 4) {
-					step();
-					deadEndIndex = 0;
-				}
-				return false;
-			}else {
-				step();
-				
-				deadEndIndex = 0;
-				System.out.println("Going "+currD.toString().toLowerCase()+". Now at ("+currX+", "+currY+").");
-				return true;
+			if (currX-1 >= 0)
+				return maze.getRGB(currX-1,currY);
+			else {
+				System.out.println("You're facing the western void."+getCurrPos());
+				return 0;
 			}
 		default:
 			System.out.println("The impossible happened! D:");//Seriously though, this is just to calm java, it won't happen
-			return false;
+			return 0;
 		}
 	}
 	
 	private void step() {
 		switch (currD) {
 			case UP:
-				if (maze.getRGB(currX, currY) == path)
+				if (maze.getRGB(currX, currY-1) == path) {
 					maze.setRGB(currX, currY, deadEnd);
-				else
+					
+					System.out.print("Backtracking up.");
+				}else if (maze.getRGB(currX,currY) == Color.BLUE.getRGB()) {
+					System.out.print("Going up.");
+				}else {
 					maze.setRGB(currX, currY, path);
+					
+					System.out.print("Going up.");
+				}
 				currY--;
+				deadEndIndex = 0;
+				System.out.println(getCurrPos());
 				break;
 			case RIGHT:
-				if (maze.getRGB(currX, currY) == path)
+				if (maze.getRGB(currX+1, currY) == path) {
 					maze.setRGB(currX, currY, deadEnd);
-				else
+					
+					System.out.print("Backtracking right.");
+				}else if (maze.getRGB(currX,currY) == Color.BLUE.getRGB()) {
+					System.out.print("Going right.");
+				}else {
 					maze.setRGB(currX, currY, path);
+					
+					System.out.print("Going right.");
+				}
 				currX++;
+				deadEndIndex = 0;
+				System.out.println(getCurrPos());
 				break;
 			case DOWN:
-				if (maze.getRGB(currX, currY) == path)
+				if (maze.getRGB(currX, currY+1) == path) {
 					maze.setRGB(currX, currY, deadEnd);
-				else
+					
+					System.out.print("Backtracking down.");
+				}else if (maze.getRGB(currX,currY) == Color.BLUE.getRGB()) {
+					System.out.print("Going down.");
+				}else {
 					maze.setRGB(currX, currY, path);
+					
+					System.out.print("Going down.");
+				}
 				currY++;
+				deadEndIndex = 0;
+				System.out.println(getCurrPos());
 				break;
 			case LEFT:
-				if (maze.getRGB(currX, currY) == path)
+				if (maze.getRGB(currX-1, currY) == path) {
 					maze.setRGB(currX, currY, deadEnd);
-				else
+					
+					System.out.print("Backtracking left.");
+				}else if (maze.getRGB(currX,currY) == Color.BLUE.getRGB()) {
+					System.out.print("Going left.");
+				}else {
 					maze.setRGB(currX, currY, path);
+					
+					System.out.print("Going left.");
+				}
 				currX--;
+				deadEndIndex = 0;
+				System.out.println(getCurrPos());
 				break;
 		}
 	}
@@ -177,9 +200,12 @@ public class Main extends Applet{;
 			currD = direction.values()[currD.ordinal()+1];
 		
 		deadEndIndex++;
-		System.out.println(deadEndIndex);
 		
-		System.out.println("Facing "+currD.toString().toLowerCase()+".");
+		System.out.println("Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
+	}
+	
+	private String getCurrPos() {
+		return " Now at ("+currX+", "+currY+").";
 	}
 	
 	public void paint(Graphics g) {
