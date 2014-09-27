@@ -1,4 +1,4 @@
 MazeSolver
 ==========
 
-Program to solve png mazes
+Program to analyse, solve and draw the solution onto mazes
