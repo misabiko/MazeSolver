@@ -23,7 +23,7 @@ public class Main extends Applet{;
 		
 //		Set the maze's BufferedImage
 		try {
-			srcMaze = ImageIO.read(new File("maze_image.png"));
+			srcMaze = ImageIO.read(new File("newmaze.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,67 +31,88 @@ public class Main extends Applet{;
 		maze = new BufferedImage(srcMaze.getWidth(),srcMaze.getHeight(),BufferedImage.TYPE_3BYTE_BGR);
 		maze.createGraphics().drawImage(srcMaze,0,0,null);
 		
-		wall = Color.BLACK.getRGB();
-		hall = Color.WHITE.getRGB();
-		start = Color.BLUE.getRGB();
-		end = Color.GREEN.getRGB();
-		path = Color.RED.getRGB();
-		deadEnd = Color.CYAN.getRGB();
-		
-//		Find the start point (blue) and end point (green)
-		for (int y = 0; y < maze.getHeight(); y++) {
-			for (int x = 0; x < maze.getWidth(); x++) {
-				if (maze.getRGB(x, y) == start) {
-					startX = x;
-					startY = y;
-					System.out.println("Start is at "+startX+" "+startY);
-				}else if (maze.getRGB(x, y) == end) {
-					endX = x;
-					endY = y;
-					System.out.println("End is at "+endX+" "+endY);
-				}
+		char[][] charArray = new char[srcMaze.getWidth()][srcMaze.getHeight()];
+		for (int i = 0; i<srcMaze.getWidth();i++) {
+			for (int j = 0; j<srcMaze.getHeight();j++) {
+				if (srcMaze.getRGB(i, j) == Color.BLACK.getRGB())
+					charArray[i][j] = 'W';
+				else if (srcMaze.getRGB(i, j) == Color.WHITE.getRGB())
+					charArray[i][j] = 'H';
+				else if (srcMaze.getRGB(i, j) == Color.BLUE.getRGB())
+					charArray[i][j] = 'S';
+				else if (srcMaze.getRGB(i, j) == Color.GREEN.getRGB())
+					charArray[i][j] = 'E';
 			}
 		}
 		
-//		findOpening();
+		for (int i = 0; i<srcMaze.getWidth();i++) {
+			for (int j = 0; j<srcMaze.getHeight();j++) {
+				System.out.print(charArray[j][i]+"\t");
+			}
+			System.out.println();
+		}
 		
-		currX = startX;
-		currY = startY;
-		
-//		Setting the start direction, start can't be in corners
-		if (startY == 0)
-			currD = direction.DOWN;
-		else if (startY == maze.getHeight())
-			currD = direction.UP;
-		else if (startX == 0)
-			currD = direction.RIGHT;
-		else
-			currD = direction.LEFT;
-		
+//		wall = Color.BLACK.getRGB();
+//		hall = Color.WHITE.getRGB();
+//		start = Color.BLUE.getRGB();
+//		end = Color.GREEN.getRGB();
+//		path = Color.RED.getRGB();
+//		deadEnd = Color.CYAN.getRGB();
+//		
+////		Find the start point (blue) and end point (green)
+//		for (int y = 0; y < maze.getHeight(); y++) {
+//			for (int x = 0; x < maze.getWidth(); x++) {
+//				if (maze.getRGB(x, y) == start) {
+//					startX = x;
+//					startY = y;
+//					System.out.println("Start is at "+startX+" "+startY);
+//				}else if (maze.getRGB(x, y) == end) {
+//					endX = x;
+//					endY = y;
+//					System.out.println("End is at "+endX+" "+endY);
+//				}
+//			}
+//		}
+//		
+////		findOpening();
+//		
+//		currX = startX;
+//		currY = startY;
+//		
+////		Setting the start direction, start can't be in corners
+//		if (startY == 0)
+//			currD = direction.DOWN;
+//		else if (startY == maze.getHeight())
+//			currD = direction.UP;
+//		else if (startX == 0)
+//			currD = direction.RIGHT;
+//		else
+//			currD = direction.LEFT;
+//		
 	}
 	
 	public void start() {
-		int i = 1;
-		while (i<1000000) {
+//		int i = 1;
+//		while (i<100000) {
 //			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
-			if (check() == end) {
-				step();
-				System.out.println("Solution has been found in "+i+" steps.");
-				return;
-			}else if (check() == hall) {
-				step();
-			}else if (deadEndIndex >= 4) {
-				if (check() == wall || check() == deadEnd || check() == start) {
-					nextDirection();
-				}else {
-					step();
-				}
-			}else if (check() == wall || check() == path || check() == deadEnd || check() == start) {
-				nextDirection();
-			}
-			
-			i++;
-		}
+//			if (check() == end) {
+//				step();
+//				System.out.println("Solution has been found in "+i+" steps.");
+//				return;
+//			}else if (check() == hall) {
+//				step();
+//			}else if (deadEndIndex >= 4) {
+//				if (check() == wall || check() == deadEnd || check() == start) {
+//					nextDirection();
+//				}else {
+//					step();
+//				}
+//			}else if (check() == wall || check() == path || check() == deadEnd || check() == start) {
+//				nextDirection();
+//			}
+//			
+//			i++;
+//		}
 	}
 	
 //	Checks if the next tile is a wall, a hall or the end and acts in consequence
