@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class Algorithm {
 	protected int startX, startY, endX, endY, currX, currY, wall, hall, start, end, path, deadEnd;
+	public int steps = 1;
 	protected int deadEndIndex = 0;
 	protected int tileSize = 1;
 	protected enum direction { UP, RIGHT, DOWN, LEFT }
@@ -62,32 +63,32 @@ public abstract class Algorithm {
 			if (currY-1 >= 0)
 				return maze.getRGB(currX,currY-1);
 			else {
-				System.out.println("You're facing the upper void."+getCurrPos());
+//				System.out.println("You're facing the upper void."+getCurrPos());
 				return 0;
 			}
 		case RIGHT:
 			if (currX+1 >= 0)
 				return maze.getRGB(currX+1,currY);
 			else {
-				System.out.println("You're facing the eastern void."+getCurrPos());
+//				System.out.println("You're facing the eastern void."+getCurrPos());
 				return 0;
 			}
 		case DOWN:
 			if (currY+1 >= 0)
 				return maze.getRGB(currX,currY+1);
 			else {
-				System.out.println("You're facing the lower void."+getCurrPos());
+//				System.out.println("You're facing the lower void."+getCurrPos());
 				return 0;
 			}
 		case LEFT:
 			if (currX-1 >= 0)
 				return maze.getRGB(currX-1,currY);
 			else {
-				System.out.println("You're facing the western void."+getCurrPos());
+//				System.out.println("You're facing the western void."+getCurrPos());
 				return 0;
 			}
 		default:
-			System.out.println("The impossible happened! D:");//Seriously though, this is just to calm java, it won't happen
+//			System.out.println("The impossible happened! D:");//Seriously though, this is just to calm java, it won't happen
 			return 0;
 		}
 	}
@@ -98,65 +99,65 @@ public abstract class Algorithm {
 				if (maze.getRGB(currX, currY-1) == path) {
 					maze.setRGB(currX, currY, deadEnd);
 					
-					System.out.print("Backtracking up.");
+//					System.out.print("Backtracking up.");
 				}else if (maze.getRGB(currX,currY) == start) {
-					System.out.print("Going up.");
+//					System.out.print("Going up.");
 				}else {
 					maze.setRGB(currX, currY, path);
 					
-					System.out.print("Going up.");
+//					System.out.print("Going up.");
 				}
 				currY--;
 				deadEndIndex = 0;
-				System.out.println(getCurrPos());
+//				System.out.println(getCurrPos());
 				break;
 			case RIGHT:
 				if (maze.getRGB(currX+1, currY) == path) {
 					maze.setRGB(currX, currY, deadEnd);
 					
-					System.out.print("Backtracking right.");
+//					System.out.print("Backtracking right.");
 				}else if (maze.getRGB(currX,currY) == start) {
-					System.out.print("Going right.");
+//					System.out.print("Going right.");
 				}else {
 					maze.setRGB(currX, currY, path);
 					
-					System.out.print("Going right.");
+//					System.out.print("Going right.");
 				}
 				currX++;
 				deadEndIndex = 0;
-				System.out.println(getCurrPos());
+//				System.out.println(getCurrPos());
 				break;
 			case DOWN:
 				if (maze.getRGB(currX, currY+1) == path) {
 					maze.setRGB(currX, currY, deadEnd);
 					
-					System.out.print("Backtracking down.");
+//					System.out.print("Backtracking down.");
 				}else if (maze.getRGB(currX,currY) == start) {
-					System.out.print("Going down.");
+//					System.out.print("Going down.");
 				}else {
 					maze.setRGB(currX, currY, path);
 					
-					System.out.print("Going down.");
+//					System.out.print("Going down.");
 				}
 				currY++;
 				deadEndIndex = 0;
-				System.out.println(getCurrPos());
+//				System.out.println(getCurrPos());
 				break;
 			case LEFT:
 				if (maze.getRGB(currX-1, currY) == path) {
 					maze.setRGB(currX, currY, deadEnd);
 					
-					System.out.print("Backtracking left.");
+//					System.out.print("Backtracking left.");
 				}else if (maze.getRGB(currX,currY) == start) {
-					System.out.print("Going left.");
+//					System.out.print("Going left.");
 				}else {
 					maze.setRGB(currX, currY, path);
 					
-					System.out.print("Going left.");
+//					System.out.print("Going left.");
 				}
 				currX--;
 				deadEndIndex = 0;
-				System.out.println(getCurrPos());
+//				System.out.println(getCurrPos());
 				break;
 		}
 	}

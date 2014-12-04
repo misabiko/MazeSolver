@@ -9,12 +9,11 @@ public class FollowLeftWall extends Algorithm{
 	}
 	
 	public BufferedImage solve() {
-		int i = 1;
-		while (i<1000000) {
+		while (steps<1000000) {
 //			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 			if (check() == end) {
 				step();
-				System.out.println("Solution has been found in "+i+" steps.");
+//				System.out.println("Solution has been found in "+steps+" steps.");
 				return maze;
 			}else if (check() == hall) {
 				step();
@@ -28,7 +27,7 @@ public class FollowLeftWall extends Algorithm{
 				nextDirection();
 			}
 			
-			i++;
+			steps++;
 		}
 		
 		return maze;
@@ -36,13 +35,13 @@ public class FollowLeftWall extends Algorithm{
 
 	//	Shifts the current direction (if up then right, else if right then down, etc)
 	private void nextDirection() {
-		if (currD.ordinal() == 3)
-			currD = direction.UP;
+		if (currD.ordinal() == 0)
+			currD = direction.LEFT;
 		else
-			currD = direction.values()[currD.ordinal()+1];
+			currD = direction.values()[currD.ordinal()-1];
 		
 		deadEndIndex++;
 		
-		System.out.println("Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
+//		System.out.println("Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 	}
 }
