@@ -1,22 +1,24 @@
-package com.misabiko.MazeSolver;
+package com.misabiko.MazeSolver.Algorithms;
 
 import java.awt.image.BufferedImage;
 
-public class FollowWall extends Algorithm{
+import com.misabiko.MazeSolver.Algorithms.Algorithm.direction;
+
+public class FollowRightWall extends Algorithm{
 
 	
-	public FollowWall(BufferedImage maze) {
+	public FollowRightWall(BufferedImage maze) {
 		super(maze);
 	}
 	
-	public void start() {
+	public BufferedImage solve() {
 		int i = 1;
 		while (i<1000000) {
 //			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 			if (check() == end) {
 				step();
 				System.out.println("Solution has been found in "+i+" steps.");
-				return;
+				return maze;
 			}else if (check() == hall) {
 				step();
 			}else if (deadEndIndex >= 4) {
@@ -31,6 +33,8 @@ public class FollowWall extends Algorithm{
 			
 			i++;
 		}
+		
+		return maze;
 	}
 
 	//	Shifts the current direction (if up then right, else if right then down, etc)

@@ -1,4 +1,4 @@
-package com.misabiko.MazeSolver;
+package com.misabiko.MazeSolver.Algorithms;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -52,6 +52,8 @@ public abstract class Algorithm {
 			currD = direction.LEFT;
 		
 	}
+	
+	public abstract BufferedImage solve();
 	
 //	Checks if the next tile is a wall, a hall or the end and acts in consequence
 	protected int check() {
