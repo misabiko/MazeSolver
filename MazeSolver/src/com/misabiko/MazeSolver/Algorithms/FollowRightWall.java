@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import com.misabiko.MazeSolver.Algorithms.Algorithm.direction;
 
 public class FollowRightWall extends Algorithm{
-
 	
 	public FollowRightWall(BufferedImage maze) {
 		super(maze);
