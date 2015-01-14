@@ -1,21 +1,25 @@
 package com.misabiko.MazeSolver.Algorithms;
 
 import java.awt.image.BufferedImage;
+import java.io.PrintWriter;
 
 import com.misabiko.MazeSolver.Algorithms.Algorithm.direction;
 
 public class FollowRightWall extends Algorithm{
 	
-	public FollowRightWall(char[][] maze) {
-		super(maze);
+	public FollowRightWall(char[][] maze, PrintWriter out) {
+		super(maze, out);
 	}
 	
 	public char[][] solve() {
+		out.println("Found the entrance at ("+startX+", "+startY+") and the exit at ("+endX+", "+endY+").");
+		out.println("Starting aiming "+currD+".\n");
+		
 		while (steps<1000000) {
-//			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
+			out.println("Step #"+steps+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 			if (check() == 'E') {
 				step();
-//				System.out.println("Solution has been found in "+steps+" steps.");
+				out.println("Solution has been found in "+steps+" steps.");
 				return maze;
 			}else if (check() == 'H') {
 				step();
@@ -44,6 +48,6 @@ public class FollowRightWall extends Algorithm{
 		
 		deadEndIndex++;
 		
-//		System.out.println("Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
+		out.println("Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 	}
 }
