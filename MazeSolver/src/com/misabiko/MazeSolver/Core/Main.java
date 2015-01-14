@@ -51,14 +51,14 @@ public class Main{;
 		char[][] charMaze = new char[processedMaze.getWidth()][srcMaze.getHeight()];
 		for (int i = 0; i<srcMaze.getWidth();i++) {
 			for (int j = 0; j<srcMaze.getHeight();j++) {
-				if (processedMaze.getRGB(i, j) == Color.BLACK.getRGB())
-					charMaze[i][j] = 'W';
-				else if (processedMaze.getRGB(i, j) == Color.WHITE.getRGB())
+				if (processedMaze.getRGB(i, j) == Color.WHITE.getRGB())
 					charMaze[i][j] = 'H';
 				else if (processedMaze.getRGB(i, j) == Color.BLUE.getRGB())
 					charMaze[i][j] = 'S';
 				else if (processedMaze.getRGB(i, j) == Color.GREEN.getRGB())
 					charMaze[i][j] = 'E';
+				else
+					charMaze[i][j] = 'W';
 			}
 		}
 		
