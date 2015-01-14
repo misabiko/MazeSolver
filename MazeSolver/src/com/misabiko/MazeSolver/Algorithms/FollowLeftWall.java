@@ -4,26 +4,26 @@ import java.awt.image.BufferedImage;
 
 public class FollowLeftWall extends Algorithm{
 
-	public FollowLeftWall(BufferedImage maze) {
+	public FollowLeftWall(char[][] maze) {
 		super(maze);
 	}
 	
-	public BufferedImage solve() {
+	public char[][] solve() {
 		while (steps<1000000) {
 //			System.out.println("Step #"+i+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
-			if (check() == end) {
+			if (check() == 'E') {
 				step();
 //				System.out.println("Solution has been found in "+steps+" steps.");
 				return maze;
-			}else if (check() == hall) {
+			}else if (check() == 'H') {
 				step();
 			}else if (deadEndIndex >= 4) {
-				if (check() == wall || check() == deadEnd || check() == start) {
+				if (check() == 'W' || check() == 'D' || check() == 'S') {
 					nextDirection();
 				}else {
 					step();
 				}
-			}else if (check() == wall || check() == path || check() == deadEnd || check() == start) {
+			}else if (check() == 'W' || check() == 'P' || check() == 'D' || check() == 'S') {
 				nextDirection();
 			}
 			

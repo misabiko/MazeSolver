@@ -1,35 +1,33 @@
 package com.misabiko.MazeSolver.Algorithms;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
 public abstract class Algorithm {
-	protected int startX, startY, endX, endY, currX, currY, wall, hall, start, end, path, deadEnd;
+	protected int startX, startY, endX, endY, currX, currY;
+//	, 'W', 'H', start, end, 'P', deadEnd;
 	public int steps = 1;
 	protected int deadEndIndex = 0;
 	protected int tileSize = 1;
 	protected enum direction { UP, RIGHT, DOWN, LEFT }
 	protected direction currD;
-	protected BufferedImage maze;
+	protected char[][] maze;
 	
-	public Algorithm(BufferedImage maze) {
+	public Algorithm(char[][] maze) {
 		this.maze = maze;
 		
-		wall = Color.BLACK.getRGB();
-		hall = Color.WHITE.getRGB();
-		start = Color.BLUE.getRGB();
-		end = Color.GREEN.getRGB();
-		path = Color.RED.getRGB();
-		deadEnd = Color.CYAN.getRGB();
+//		'W' = Color.BLACK[);
+//		'H' = Color.WHITE[);
+//		start = Color.BLUE[);
+//		end = Color.GREEN[);
+//		'P' = Color.RED[);
+//		deadEnd = Color.CYAN[);
 		
 ////		Find the start point (blue) and end point (green)
-//		for (int y = 0; y < maze.getHeight(); y++) {
-//			for (int x = 0; x < maze.getWidth(); x++) {
-//				if (maze.getRGB(x, y) == start) {
+//		for (int y = 0; y < maze[0].length; y++) {
+//			for (int x = 0; x < maze.length; x++) {
+//				if (maze[x, y) == start) {
 //					startX = x;
 //					startY = y;
 //					System.out.println("Start is at "+startX+" "+startY);
-//				}else if (maze.getRGB(x, y) == end) {
+//				}else if (maze[x, y) == end) {
 //					endX = x;
 //					endY = y;
 //					System.out.println("End is at "+endX+" "+endY);
@@ -45,7 +43,7 @@ public abstract class Algorithm {
 //		Setting the start direction, start can't be in corners
 		if (startY == 0)
 			currD = direction.DOWN;
-		else if (startY == maze.getHeight())
+		else if (startY == maze[0].length)
 			currD = direction.UP;
 		else if (startX == 0)
 			currD = direction.RIGHT;
@@ -54,35 +52,35 @@ public abstract class Algorithm {
 		
 	}
 	
-	public abstract BufferedImage solve();
+	public abstract char[][] solve();
 	
-//	Checks if the next tile is a wall, a hall or the end and acts in consequence
+//	Checks if the next tile is a 'W', a 'H' or the end and acts in consequence
 	protected int check() {
 		switch (currD) {
 		case UP:
 			if (currY-1 >= 0)
-				return maze.getRGB(currX,currY-1);
+				return maze[currX][currY-1];
 			else {
 //				System.out.println("You're facing the upper void."+getCurrPos());
 				return 0;
 			}
 		case RIGHT:
 			if (currX+1 >= 0)
-				return maze.getRGB(currX+1,currY);
+				return maze[currX+1][currY];
 			else {
 //				System.out.println("You're facing the eastern void."+getCurrPos());
 				return 0;
 			}
 		case DOWN:
 			if (currY+1 >= 0)
-				return maze.getRGB(currX,currY+1);
+				return maze[currX][currY+1];
 			else {
 //				System.out.println("You're facing the lower void."+getCurrPos());
 				return 0;
 			}
 		case LEFT:
 			if (currX-1 >= 0)
-				return maze.getRGB(currX-1,currY);
+				return maze[currX-1][currY];
 			else {
 //				System.out.println("You're facing the western void."+getCurrPos());
 				return 0;
@@ -96,14 +94,14 @@ public abstract class Algorithm {
 	protected void step() {
 		switch (currD) {
 			case UP:
-				if (maze.getRGB(currX, currY-1) == path) {
-					maze.setRGB(currX, currY, deadEnd);
+				if (maze[currX][currY-1] == 'P') {
+					maze[currX][currY] = 'D';
 					
 //					System.out.print("Backtracking up.");
-				}else if (maze.getRGB(currX,currY) == start) {
+				}else if (maze[currX][currY] == 'S') {
 //					System.out.print("Going up.");
 				}else {
-					maze.setRGB(currX, currY, path);
+					maze[currX][currY] = 'P';
 					
 //					System.out.print("Going up.");
 				}
@@ -112,14 +110,14 @@ public abstract class Algorithm {
 //				System.out.println(getCurrPos());
 				break;
 			case RIGHT:
-				if (maze.getRGB(currX+1, currY) == path) {
-					maze.setRGB(currX, currY, deadEnd);
+				if (maze[currX+1][currY] == 'P') {
+					maze[currX][currY] = 'D';
 					
 //					System.out.print("Backtracking right.");
-				}else if (maze.getRGB(currX,currY) == start) {
+				}else if (maze[currX][currY] == 'S') {
 //					System.out.print("Going right.");
 				}else {
-					maze.setRGB(currX, currY, path);
+					maze[currX][currY] = 'P';
 					
 //					System.out.print("Going right.");
 				}
@@ -128,14 +126,14 @@ public abstract class Algorithm {
 //				System.out.println(getCurrPos());
 				break;
 			case DOWN:
-				if (maze.getRGB(currX, currY+1) == path) {
-					maze.setRGB(currX, currY, deadEnd);
+				if (maze[currX][currY+1] == 'P') {
+					maze[currX][currY] = 'D';
 					
 //					System.out.print("Backtracking down.");
-				}else if (maze.getRGB(currX,currY) == start) {
+				}else if (maze[currX][currY] == 'S') {
 //					System.out.print("Going down.");
 				}else {
-					maze.setRGB(currX, currY, path);
+					maze[currX][currY] = 'P';
 					
 //					System.out.print("Going down.");
 				}
@@ -144,14 +142,14 @@ public abstract class Algorithm {
 //				System.out.println(getCurrPos());
 				break;
 			case LEFT:
-				if (maze.getRGB(currX-1, currY) == path) {
-					maze.setRGB(currX, currY, deadEnd);
+				if (maze[currX-1][currY] == 'P') {
+					maze[currX][currY] = 'D';
 					
 //					System.out.print("Backtracking left.");
-				}else if (maze.getRGB(currX,currY) == start) {
+				}else if (maze[currX][currY] == 'S') {
 //					System.out.print("Going left.");
 				}else {
-					maze.setRGB(currX, currY, path);
+					maze[currX][currY] = 'P';
 					
 //					System.out.print("Going left.");
 				}
@@ -167,8 +165,8 @@ public abstract class Algorithm {
 	}
 	
 	private void findOpening() {
-		for (int i = 0;i< maze.getWidth();i++) {
-			if (maze.getRGB(i, 0) != wall) {
+		for (int i = 0;i< maze.length;i++) {
+			if (maze[i][0] != 'W') {
 				if (startX == 0 && startY == 0) {
 					startX = i;
 					startY = 0;
@@ -179,20 +177,20 @@ public abstract class Algorithm {
 				}
 			}
 		}
-		for (int i = 0;i< maze.getWidth();i++) {
-			if (maze.getRGB(i, maze.getHeight()-1) != wall) {
+		for (int i = 0;i< maze.length;i++) {
+			if (maze[i][maze[0].length-1] != 'W') {
 				if (startX == 0 && startY == 0) {
 					startX = i;
-					startY = maze.getHeight();
+					startY = maze[0].length;
 				}else if (endX == 0 && endY == 0) {
 					endX = i;
-					endY = maze.getHeight();
+					endY = maze[0].length;
 					return;
 				}
 			}
 		}
-		for (int i = 0;i< maze.getHeight();i++) {
-			if (maze.getRGB(0, i) != wall) {
+		for (int i = 0;i< maze[0].length;i++) {
+			if (maze[0][i] != 'W') {
 				if (startX == 0 && startY == 0) {
 					startX = 0;
 					startY = i;
@@ -203,13 +201,13 @@ public abstract class Algorithm {
 				}
 			}
 		}
-		for (int i = 0;i< maze.getHeight();i++) {
-			if (maze.getRGB(maze.getWidth()-1, i) != wall) {
+		for (int i = 0;i< maze[0].length;i++) {
+			if (maze[maze.length-1][i] != 'W') {
 				if (startX == 0 && startY == 0) {
-					startX = maze.getWidth();
+					startX = maze.length;
 					startY = i;
 				}else if (endX == 0 && endY == 0) {
-					endX = maze.getWidth();
+					endX = maze.length;
 					endY = i;
 					return;
 				}
@@ -218,33 +216,33 @@ public abstract class Algorithm {
 	}
 	
 	private void setTileSize() {
-		for (int i = 0;i< maze.getWidth();i++) {
-			if (maze.getRGB(i, 0) != wall) {
-				while (maze.getRGB(i+tileSize, 0) != wall) {
+		for (int i = 0;i< maze.length;i++) {
+			if (maze[i][0] != 'W') {
+				while (maze[i+tileSize][0] != 'W') {
 					tileSize++;
 					return;
 				}
 			}
 		}
-		for (int i = 0;i< maze.getWidth();i++) {
-			if (maze.getRGB(i, maze.getHeight()) != wall) {
-				while (maze.getRGB(i+tileSize, maze.getHeight()) != wall) {
+		for (int i = 0;i< maze.length;i++) {
+			if (maze[i][maze[0].length] != 'W') {
+				while (maze[i+tileSize][maze[0].length] != 'W') {
 					tileSize++;
 					return;
 				}
 			}
 		}
-		for (int i = 0;i< maze.getHeight();i++) {
-			if (maze.getRGB(0, i) != wall) {
-				while (maze.getRGB(0, i+tileSize) != wall) {
+		for (int i = 0;i< maze[0].length;i++) {
+			if (maze[0][i] != 'W') {
+				while (maze[0][i+tileSize] != 'W') {
 					tileSize++;
 					return;
 				}
 			}
 		}
-		for (int i = 0;i< maze.getHeight();i++) {
-			if (maze.getRGB(maze.getWidth(), i) != wall) {
-				while (maze.getRGB(maze.getWidth(), i+tileSize) != wall) {
+		for (int i = 0;i< maze[0].length;i++) {
+			if (maze[maze.length][i] != 'W') {
+				while (maze[maze.length][i+tileSize] != 'W') {
 					tileSize++;
 					return;
 				}
