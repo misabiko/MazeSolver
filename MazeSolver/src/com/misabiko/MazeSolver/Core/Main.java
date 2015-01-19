@@ -62,14 +62,14 @@ public class Main{;
 			}
 		}
 		
-		logOutput.println("Processed version of the maze converted to a char array:\n");
-		
-		for (int x = 0; x < charMaze.length; x++) {
-			for (int y = 0; y < charMaze[0].length; y++) {
-				logOutput.print(charMaze[x][y]);
-			}
-			logOutput.print("\n");
-		}
+//		logOutput.println("Processed version of the maze converted to a char array:\n");
+//		
+//		for (int x = 0; x < charMaze.length; x++) {
+//			for (int y = 0; y < charMaze[0].length; y++) {
+//				logOutput.print(charMaze[x][y]);
+//			}
+//			logOutput.print("\n");
+//		}
 		
 		logOutput.println();
 		
@@ -98,10 +98,12 @@ public class Main{;
 		}
 		
 		try {
-			ImageIO.write(outputMaze, "png", new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\output.png"));
+//			ImageIO.write(outputMaze, "png", new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\outputMaze.png"));
+			ImageIO.write(outputMaze, "png", new File(System.getProperty("user.dir")+"output.png"));
 			logOutput.println("Saving solved maze at:");
-			logOutput.println(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\output.png");
-		} catch (IOException | URISyntaxException e) {
+//			logOutput.println(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\output.png");
+			logOutput.println(System.getProperty("user.dir")+"output.png");
+		} catch (IOException e) {
 			logOutput.println("An error occur in the process, outputing error.");
 			e.printStackTrace();
 			e.printStackTrace(logOutput);
