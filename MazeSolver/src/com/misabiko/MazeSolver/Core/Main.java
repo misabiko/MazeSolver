@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 
+import com.misabiko.MazeSolver.Algorithms.AStar;
 import com.misabiko.MazeSolver.Algorithms.Algorithm;
 import com.misabiko.MazeSolver.Algorithms.FollowLeftWall;
 import com.misabiko.MazeSolver.Algorithms.FollowRightWall;
@@ -19,10 +20,11 @@ public class Main{;
 	private static BufferedImage srcMaze, processedMaze, outputMaze;
 	private static PrintWriter logOutput;
 	private static char[][] solvedMaze;
-	private static Algorithm[] algos = new Algorithm[2];
+	private static Algorithm[] algos = new Algorithm[3];
 	private static String[] algoNames = new String[] {
-		"FollowRightWall",
-		"FollowLeftWall"
+		"TurnRight",
+		"TurnLeft",
+		"A*"
 		};
 	
 	public static void main(String[] args) {
@@ -75,6 +77,7 @@ public class Main{;
 		
 		algos[0] = new FollowRightWall(charMaze, logOutput);
 		algos[1] = new FollowLeftWall(charMaze, logOutput);
+		algos[2] = new AStar(charMaze, logOutput);
 		
 		solvedMaze = algos[Integer.valueOf(args[1])].solve();
 		
