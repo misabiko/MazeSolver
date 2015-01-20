@@ -58,21 +58,45 @@ public class AStar extends Algorithm {
 		rightExists = (nodes[currX][currY].x+1 <= nodes.length);
 		
 		if (upExists)
-			next = nodes[nodes[currX][currY].x][nodes[currX][currY].y-1];
+			if (nodes[nodes[currX][currY].x][nodes[currX][currY].y-1].type != 'W')
+				next = nodes[nodes[currX][currY].x][nodes[currX][currY].y-1];
+			else
+				System.out.println("whet1");
 		else if (upExists && rightExists)
-			next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y-1];
+			if (nodes[nodes[currX][currY].x+1][nodes[currX][currY].y-1].type != 'W')
+				next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y-1];
+			else
+				System.out.println("whet2");
 		else if (rightExists)
-			next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y];
+			if (nodes[nodes[currX][currY].x+1][nodes[currX][currY].y].type != 'W')
+				next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y];
+			else
+				System.out.println("whet3");
 		else if (downExists && rightExists)
-			next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y+1];
+			if (nodes[nodes[currX][currY].x+1][nodes[currX][currY].y+1].type != 'W')
+				next = nodes[nodes[currX][currY].x+1][nodes[currX][currY].y+1];
+			else
+				System.out.println("whet4");
 		else if (downExists)
-			next = nodes[nodes[currX][currY].x][nodes[currX][currY].y+1];
+			if (nodes[nodes[currX][currY].x][nodes[currX][currY].y+1].type != 'W')
+				next = nodes[nodes[currX][currY].x][nodes[currX][currY].y+1];
+			else
+				System.out.println("whet5");
 		else if (downExists && leftExists)
-			next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y+1];
+			if (nodes[nodes[currX][currY].x-1][nodes[currX][currY].y+1].type != 'W')
+				next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y+1];
+			else
+				System.out.println("whet6");
 		else if (leftExists)
-			next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y];
+			if (nodes[nodes[currX][currY].x-1][nodes[currX][currY].y].type != 'W')
+				next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y];
+			else
+				System.out.println("whet7");
 		else if (upExists && leftExists)
-			next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y-1];
+			if (nodes[nodes[currX][currY].x-1][nodes[currX][currY].y-1].type != 'W')
+				next = nodes[nodes[currX][currY].x-1][nodes[currX][currY].y-1];
+			else
+				System.out.println("whet8");
 		
 		
 		if (upExists)
