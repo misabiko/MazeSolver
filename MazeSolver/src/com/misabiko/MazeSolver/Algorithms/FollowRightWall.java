@@ -15,7 +15,7 @@ public class FollowRightWall extends Algorithm{
 		out.println("Found the entrance at ("+startX+", "+startY+") and the exit at ("+endX+", "+endY+").");
 		out.println("Starting aiming "+currD+".\n");
 		
-		while (steps<1000000) {
+		while (steps<10000000) {
 			out.println("Step #"+steps+": Facing "+currD.toString().toLowerCase()+"."+getCurrPos()+" Dead End Index is at "+deadEndIndex+".");
 			if (check() == 'E') {
 				step();

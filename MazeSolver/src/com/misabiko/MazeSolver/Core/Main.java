@@ -102,7 +102,13 @@ public class Main{;
 		
 		try {
 //			ImageIO.write(outputMaze, "png", new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\outputMaze.png"));
-			ImageIO.write(outputMaze, "png", new File(System.getProperty("user.dir")+"output.png"));
+			for (int i = 0; i < 10; i++) {
+				File file = new File(System.getProperty("user.dir")+"output"+i+".png");
+				if (!file.exists() && !file.isDirectory()) {
+					ImageIO.write(outputMaze, "png", new File(System.getProperty("user.dir")+"output"+i+".png"));
+					break;
+				}
+			}
 			logOutput.println("Saving solved maze at:");
 //			logOutput.println(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()+"\\output.png");
 			logOutput.println(System.getProperty("user.dir")+"output.png");
